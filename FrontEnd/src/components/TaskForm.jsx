@@ -18,7 +18,7 @@ const TaskForm = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setTask(response.data.tasks);
+        setTask(response.data);
       };
       fetchTask();
     }
