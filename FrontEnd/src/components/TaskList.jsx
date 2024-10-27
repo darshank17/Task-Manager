@@ -7,7 +7,12 @@ const TaskList = () => {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const res = await axios.get("http://localhost:5000/tasks");
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:5000/tasks", {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include token in headers
+        },
+      });
       // console.log(res.data.tasks);
       setTasks(res.data.tasks || res.data);
     };
@@ -15,7 +20,12 @@ const TaskList = () => {
   }, []);
 
   const deleteTask = async (id) => {
-    await axios.delete(`http://localhost:5000/tasks/${id}`);
+    const token = localStorage.getItem("token");
+    await axios.delete(`http://localhost:5000/tasks/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Include token in headers
+      },
+    });
     setTasks(tasks.filter((task) => task._id !== id));
   };
 

@@ -12,7 +12,12 @@ const TaskForm = () => {
   useEffect(() => {
     if (id) {
       const fetchTask = async () => {
-        const response = await axios.get(`http://localhost:5000/tasks/${id}`);
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:5000/tasks/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setTask(response.data.tasks);
       };
       fetchTask();
@@ -25,10 +30,19 @@ const TaskForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
     if (id) {
-      await axios.put(`http://localhost:5000/tasks/${id}`, task);
+      await axios.put(`http://localhost:5000/tasks/${id}`, task, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include token in headers
+        },
+      });
     } else {
-      await axios.post("http://localhost:5000/tasks", task);
+      await axios.post("http://localhost:5000/tasks", task, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include token in headers
+        },
+      });
     }
     navigate("/");
   };
