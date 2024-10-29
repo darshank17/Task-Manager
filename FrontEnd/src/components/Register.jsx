@@ -14,10 +14,18 @@ const Register = () => {
     e.preventDefault();
     try {
       await axios.post("http://localhost:5000/auth/register", user);
-      navigate("/login"); // Redirect to login on successful registration
+      navigate("/login");
     } catch (error) {
-      console.error("Registration failed", error);
-      alert("Registration failed. Please try again.");
+      console.error(
+        "Registration failed",
+        error.response ? error.response.data : error.message
+      );
+
+      if (error.response && error.response.status === 400) {
+        setError("User already exists");
+      } else {
+        setError("Registration failed. Please try again.");
+      }
     }
   };
 

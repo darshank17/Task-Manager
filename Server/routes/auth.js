@@ -1,7 +1,6 @@
-// routes/authRoutes.js
 const express = require("express");
 const { register, login } = require("../controllers/authController");
-const { check, validationResult } = require("express-validator");
+const { check } = require("express-validator");
 
 const router = express.Router();
 
@@ -9,7 +8,7 @@ router.post(
   "/register",
   [
     check("email", "Please include a valid email").isEmail(),
-    check("password", "Password is required").isLength({ min: 6 }),
+    check("password", "Password is required").isLength({ min: 2 }),
   ],
   register
 );

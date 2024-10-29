@@ -1,7 +1,9 @@
-// controllers/authController.js
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+require("dotenv").config();
+
+const JWT_KEY = process.env.JWT_KEY;
 
 exports.register = async (req, res) => {
   const { email, password } = req.body;
@@ -15,8 +17,9 @@ exports.register = async (req, res) => {
     const token = jwt.sign({ userId: user._id }, JWT_KEY, {
       expiresIn: "1h",
     });
-    res.json({ token });
+    res.status(201).json({ token });
   } catch (err) {
+    console.error("Error in registration route:", err);
     res.status(500).send("Server error");
   }
 };
@@ -32,8 +35,9 @@ exports.login = async (req, res) => {
     const token = jwt.sign({ userId: user._id }, JWT_KEY, {
       expiresIn: "1h",
     });
-    res.json({ token });
+    res.status(201).json({ token });
   } catch (err) {
+    console.error("Error in registration route:", err);
     res.status(500).send("Server error");
   }
 };

@@ -3,8 +3,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { CiCircleCheck } from "react-icons/ci";
 import { SiTicktick } from "react-icons/si";
-
-const TaskList = () => {
+import Logout from "./Logout";
+const TaskList = ({ setIsLoggedIn }) => {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
@@ -12,10 +12,11 @@ const TaskList = () => {
       const token = localStorage.getItem("token");
       const res = await axios.get("http://localhost:5000/tasks", {
         headers: {
-          Authorization: `Bearer ${token}`, // Include token in headers
+          Authorization: `Bearer ${token}`,
+          d,
         },
       });
-      // console.log(res.data.tasks);
+
       setTasks(res.data.tasks || res.data);
     };
     fetchTasks();
@@ -25,7 +26,7 @@ const TaskList = () => {
     const token = localStorage.getItem("token");
     await axios.delete(`http://localhost:5000/tasks/${id}`, {
       headers: {
-        Authorization: `Bearer ${token}`, // Include token in headers
+        Authorization: `Bearer ${token}`,
       },
     });
     setTasks(tasks.filter((task) => task._id !== id));
@@ -53,7 +54,7 @@ const TaskList = () => {
               <CiCircleCheck className="text-3xl" />
               <h2 className="text-2xl font-semibold">{task.title}</h2>
             </div>
-            {/* <p>{task.description}</p> */}
+
             <div className="flex space-x-4 mt-2 ml-10">
               <Link to={`/tasks/${task._id}`} className="text-green-600">
                 {" "}
@@ -71,6 +72,7 @@ const TaskList = () => {
             </div>
           </div>
         ))}
+      <Logout setIsLoggedIn={setIsLoggedIn} />
     </div>
   );
 };

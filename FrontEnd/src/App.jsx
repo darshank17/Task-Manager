@@ -11,11 +11,10 @@ import Register from "./components/Register";
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Check for token on component mount
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      setIsLoggedIn(true); // User is logged in
+      setIsLoggedIn(true);
     }
   }, []);
 
@@ -23,10 +22,12 @@ const App = () => {
     <Router>
       <div className="container mx-auto p-4">
         <Routes>
-          {/* If logged in, show TaskList, otherwise show Register/Login */}
           {isLoggedIn ? (
             <>
-              <Route path="/" element={<TaskList />} />
+              <Route
+                path="/"
+                element={<TaskList setIsLoggedIn={setIsLoggedIn} />}
+              />
               <Route path="/tasks/new" element={<TaskForm />} />
               <Route path="/tasks/:id" element={<TaskDetails />} />
               <Route path="/tasks/edit/:id" element={<TaskForm />} />

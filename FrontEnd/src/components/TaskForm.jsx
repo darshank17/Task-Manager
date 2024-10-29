@@ -34,13 +34,13 @@ const TaskForm = () => {
     if (id) {
       await axios.put(`http://localhost:5000/tasks/${id}`, task, {
         headers: {
-          Authorization: `Bearer ${token}`, // Include token in headers
+          Authorization: `Bearer ${token}`,
         },
       });
     } else {
       await axios.post("http://localhost:5000/tasks", task, {
         headers: {
-          Authorization: `Bearer ${token}`, // Include token in headers
+          Authorization: `Bearer ${token}`,
         },
       });
     }
